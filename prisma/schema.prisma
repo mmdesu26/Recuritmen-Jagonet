@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Position {
+  id            String        @id @default(cuid())
+  title         String
+  description   String        @db.Text
+  requirements  String        @db.Text
+  location      String
+  type          String        // Full-time, Part-time, Contract
+  isOpen        Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  applications  Application[]
+}
+
+enum ApplicationStatus {
+  PENDING
+  INTERVIEW_SCHEDULED
+  INTERVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+model Application {
+  id                String            @id @default(cuid())
+  nik               String
+  fullName          String
+  email             String
+  phone             String
+  whatsapp          String
+  address           String            @db.Text
+  education         String
+  cvUrl             String
+  photo3x4Url       String?            // Foto 3x4 pelamar
+  ktpUrl            String?            // Dokumen KTP pelamar (PDF)
+  ktpVerified       Boolean           @default(false) // Status verifikasi KTP
+  status            ApplicationStatus @default(PENDING)
+  positionId        String
+  position          Position          @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  interviewSchedule Interview?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@index([nik])
+  @@index([positionId])
+}
+
+model Interview {
+  id            String      @id @default(cuid())
+  applicationId String      @unique
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  scheduledDate DateTime
+  location      String
+  notes         String?     @db.Text
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model EmailConfig {
+  id        Int      @id @default(1)
+  smtpUser  String
+  smtpPass  String
+  smtpHost  String
+  smtpPort  Int
+  updatedAt DateTime @updatedAt
+
+  @@map("email_config") // optional, biar nama tabel-nya rapi di DB
+}
