@@ -432,7 +432,7 @@ export default function ApplyPage() {
                     <input
   id="ktp"
   type="file"
-  accept=".pdf,.jpg,.jpeg,.png"
+  accept=".pdf"
   onChange={handleKTPChange}
   className="hidden"
 />
@@ -451,7 +451,7 @@ export default function ApplyPage() {
                           "Klik untuk upload KTP"
                         )}
                       </p>
-                      <p className="text-sm text-slate-500">PDF (scan/foto KTP) maksimal 3MB</p>
+                      <p className="text-sm text-slate-500">PDF (scan KTP) maksimal 3MB</p>
                     </label>
                   </div>
                 </div>

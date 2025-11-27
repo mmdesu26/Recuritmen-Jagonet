@@ -946,45 +946,56 @@ Jagonet - Internet Service Provider`
               )}
 
               {/* KTP */}
-              {selectedApp.ktpUrl && (
-                <div>
-                  <Label className="text-base font-semibold mb-3 flex items-center gap-2">
-                    KTP{" "}
-                    {selectedApp.ktpVerified ? (
-                      <Badge className="bg-green-100 text-green-800">Terverifikasi</Badge>
-                    ) : (
-                      <Badge className="bg-red-100 text-red-800">Tidak Valid</Badge>
-                    )}
-                  </Label>
+{selectedApp.ktpUrl && (
+  <div>
+    <Label className="text-base font-semibold mb-3 flex items-center gap-2">
+      KTP{" "}
+      {selectedApp.ktpVerified ? (
+        <Badge className="bg-green-100 text-green-800">Terverifikasi</Badge>
+      ) : (
+        <Badge className="bg-red-100 text-red-800">Tidak Valid</Badge>
+      )}
+    </Label>
 
-                  <div
-                    className="border-2 border-slate-200 rounded-lg p-3 bg-slate-50 cursor-pointer hover:opacity-90 transition"
-                    onClick={() => window.open(selectedApp.ktpUrl || "", "_blank")}
-                    title="Klik untuk melihat KTP"
-                  >
-                    <img
-                      src={selectedApp.ktpUrl || "/placeholder.svg"}
-                      alt="KTP"
-                      className="max-w-full h-auto rounded-md mx-auto"
-                    />
-                  </div>
+    {/* Detect apakah file PDF */}
+    {selectedApp.ktpUrl.toLowerCase().endsWith(".pdf") ? (
+      <div className="border-2 border-slate-200 rounded-lg bg-slate-50 p-3">
+        <iframe
+          src={selectedApp.ktpUrl}
+          className="w-full h-[500px] rounded-md"
+          title="Preview KTP PDF"
+        ></iframe>
+      </div>
+    ) : (
+      <div
+        className="border-2 border-slate-200 rounded-lg p-3 bg-slate-50 cursor-pointer hover:opacity-90 transition"
+        onClick={() => window.open(selectedApp.ktpUrl, "_blank")}
+        title="Klik untuk melihat KTP"
+      >
+        <img
+          src={selectedApp.ktpUrl}
+          alt="KTP"
+          className="max-w-full h-auto rounded-md mx-auto"
+        />
+      </div>
+    )}
 
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full mt-2 bg-transparent"
-                  >
-                    <a
-                      href={selectedApp.ktpUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      download
-                    >
-                      <Download className="h-4 w-4 mr-2" />
-                      Download KTP
-                    </a>
-                  </Button>
-                </div>
+    <Button
+      asChild
+      variant="outline"
+      className="w-full mt-2 bg-transparent"
+    >
+      <a
+        href={selectedApp.ktpUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        download
+      >
+        <Download className="h-4 w-4 mr-2" />
+        Download KTP
+      </a>
+    </Button>
+  </div>
               )}
             </div>
           )}

@@ -26,7 +26,7 @@ Aplikasi web sistem rekrutmen modern dengan Next.js 15, TypeScript, Prisma, MySQ
 - MySQL + Prisma ORM
 - ShadCN UI + TailwindCSS
 - Framer Motion
-- Nodemailer + WhatsApp API
+- WhatsApp API
 
 ## 🚀 Quick Start
 
